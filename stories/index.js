@@ -13,6 +13,7 @@ import InterviewerListItem from "components/InterviewerListItem";
 import Appointment from "components/appointments";
 import Header from "components/appointments/Header";
 import Empty from "components/appointments/Empty";
+import Show from "components/appointments/Show";
 
 
 storiesOf("Button", module)
@@ -145,3 +146,4 @@ storiesOf("Button", module)
       .add("Appointment with Time", () => <Appointment time="12pm" />)
       .add("Header", () => <Header time="12pm" />)
       .add("Empty", () => <Empty onAdd={action("onAdd")}/>)
+      .add("Show", () => <Show student="Lydia Miller-Jones" interviewer={interviewer} onEdit={action("onEdit")} onDelete={action("onDelete")} />)

@@ -31,7 +31,7 @@ const interviewers = [
 ];
 
 
-const Application = (props) =>{
+const Application = () =>{
 
   const [day, setDay] = useState("Monday");
 
@@ -47,8 +47,8 @@ const Application = (props) =>{
 
       <DayList
         days={days}
-        day={day}
-        setDay={setDay}
+        value={day}
+        onChange={setDay}
       />
 
       <nav className="sidebar__menu"></nav>

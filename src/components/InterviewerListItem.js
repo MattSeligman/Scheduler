@@ -6,7 +6,7 @@ import "./InterviewerListItem.scss";
 export default function InterviewerListItem(props) {
 
   // Pull entries from Parent and assign to props object.
-  const { id, name, avatar, selected } = props;
+  const { id, name, avatar, selected, setInterviewer } = props;
 
   // Assign classes with classNames npm
   const classSetup = classNames(
@@ -14,11 +14,13 @@ export default function InterviewerListItem(props) {
     `interviewers__item${selected ? "--selected" : ""}`
   );
   
+  console.log('listItem', props)
   return (
     <li 
       key={id}
       className={classSetup}
-      onClick={props.setInterviewer}
+      onClick={setInterviewer}
+      selected={selected}
     >
       <img
         className="interviewers__item-image"

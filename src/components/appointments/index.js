@@ -10,7 +10,7 @@ const Appointment = (props) => {
       onAdd // Empty
     } = props;
 
-    console.log(props) 
+    console.log('appointment props', props) 
   return ( 
   <article className="appointment">
       <Header id={ id } time={ time } />

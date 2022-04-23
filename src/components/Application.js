@@ -1,6 +1,7 @@
 import React, { useState, useEffect } from "react";
 import DayList from '../components/DayList'
 import Appointment from '../components/appointments/index'
+import getAppointmentsForDay from '../helpers/selectors'
 
 import "components/Application.scss";
 import axios from 'axios';
@@ -8,7 +9,6 @@ import axios from 'axios';
 const Application = () =>{
 
   const setDay = day => setState({ ...state, day })
-  const setDays = days => setState(prev => ({ ...prev, days }));
   
   const [state, setState] = useState({
     day: "Monday",
@@ -16,25 +16,35 @@ const Application = () =>{
     appointments: {}
   });
 
-  const dailyAppointments = [];
-  
-  const apiDays = `http://localhost:8001/api/days/`;
-  const apiAppointments = `http://localhost:8001/api/appointments`;
+  const dailyAppointments = getAppointmentsForDay(state, state.day);
+
+  const api = {
+    GET_DAYS: `http://localhost:8001/api/days`,
+    GET_APPOINTMENTS: `http://localhost:8001/api/appointments`,
+    GET_INTERVIEWERS: `http://localhost:8001/api/interviewers`
+  }
   
   useEffect(() => {
-    Promise.all([
-      axios.get(apiDays),
-      axios.get(apiAppointments),
-      // axios.get('/third_endpoint')
+    Promise.all(
+      [
+        axios.get(api.GET_DAYS),
+        axios.get(api.GET_APPOINTMENTS),
+        axios.get(api.GET_INTERVIEWERS)
+      ]
+    )
+    .then((promiseResp) => {
 
-    ]).then((promiseResp) => {
-      let apiDaysResponse = promiseResp[0].data;
-      let apiAppointmentsResponse = promiseResp[1].data;
-      
-      setDays(apiDaysResponse);
-
-      console.log("apiDaysResponse", apiDaysResponse); // second
-      console.log("apiAppointmentsResponse", apiAppointmentsResponse); // second
+      let apiResponse = {
+        GET_DAYS: promiseResp[0].data,
+        GET_APPOINTMENTS: promiseResp[1].data,
+        GET_INTERVIEWERS: promiseResp[2].data
+      }
+      console.log("apiResponse.GET_DAYS", apiResponse.GET_DAYS);
+      console.log("apiResponse.GET_APPOINTMENTS", apiResponse.GET_APPOINTMENTS);
+      console.log("apiResponse.GET_INTERVIEWERS", apiResponse.GET_INTERVIEWERS);
+        
+      // setState( (prev) => ({ ...prev, days: apiResponse.GET_DAYS, appointments: apiResponse.GET_APPOINTMENTS }) );
+      setState(prev => ({ ...prev, days: apiResponse.GET_DAYS, appointments: apiResponse.GET_APPOINTMENTS }));
     });
     
     // axios.get(apiDays)

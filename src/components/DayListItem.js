@@ -9,10 +9,7 @@ export default function DayListItem(props) {
   let { name, spots, selected } = props;
 
   // Assign classes with classNames npm
-  let dayClass = classNames(
-
-    // included classes
-    "day-list__item",
+  let dayClass = classNames( "day-list__item",
 
     // conditionally included classes
     {
@@ -22,12 +19,10 @@ export default function DayListItem(props) {
   );
 
   // Day State on Click
-  const selectDay = ()=>{
-    props.setDay(name);
-  }
+  const selectDay = () => { props.setDay(name); }
 
   // Message states based on Spots
-  const spotsMessage = (spots)=>{
+  const spotsMessage = (spots) => {
     
     if (spots === 0 ) {
       return `no spots remaining`;

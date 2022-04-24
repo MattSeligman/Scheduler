@@ -10,12 +10,11 @@ const Appointment = (props) => {
       onAdd // Empty
     } = props;
 
-    console.log('appointment props', props) 
+    console.log(props) 
   return ( 
   <article className="appointment">
       <Header id={ id } time={ time } />
       { 
-        
         (interview) ? 
         
         // if interview exists
@@ -26,7 +25,7 @@ const Appointment = (props) => {
           onDelete={ onDelete } 
         />
 
-        : // else return
+        : // else
 
         <Empty
           onAdd= { onAdd }

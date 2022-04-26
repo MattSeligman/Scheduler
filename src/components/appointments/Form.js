@@ -5,11 +5,12 @@ import Button from 'components/Button';
 
 const AppointmentForm = (props) => {
 
-  const { interviewers, onSave, onCancel} = props;
+  const { onCancel } = props;
 
   const [student, setStudent] = useState(props.name || "");
   const [interviewer, setInterviewer] = useState(props.interviewer || null);
 
+  console.log("Exist?", props)
   const reset = ()=>{
     setStudent("");
     setInterviewer(null);
@@ -21,8 +22,14 @@ const AppointmentForm = (props) => {
   }
 
   const save = ()=>{
-    // saving for API
-    onSave(student, interviewer);
+    console.log(`save submitted:`, student, interviewer);
+    if(student && interviewer){
+      props.onSave(student, interviewer);
+      console.log(`save set:`, student, interviewer);
+    }
+
+    
+    
   }
   
   return (
@@ -39,7 +46,7 @@ const AppointmentForm = (props) => {
           />
         </form>
         <InterviewerList 
-          interviewers={interviewers}
+          interviewers={props.interviewers}
           value={interviewer}
           onChange={setInterviewer}
         />

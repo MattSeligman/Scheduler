@@ -21,9 +21,10 @@ const Application = () =>{
 
   // setup the API routes
   const api = {
-    GET_DAYS: `http://localhost:8001/api/days`,
-    GET_APPOINTMENTS: `http://localhost:8001/api/appointments`,
-    GET_INTERVIEWERS: `http://localhost:8001/api/interviewers`
+    GET_DAYS: `/api/days`,
+    GET_APPOINTMENTS: `/api/appointments`,
+    GET_INTERVIEWERS: `/api/interviewers`,
+    GET_INTERVIEWERS_ID: `/api/interviewers/:id`
   }
   
   // update the states based on the routes responses
@@ -51,9 +52,28 @@ const Application = () =>{
 
   const appointments = getAppointmentsForDay(state, state.day);
   const interviewers = getInterviewersForDay(state, state.day);
-
+  
   function bookInterview(id, interview) {
     console.log(id, interview);
+
+    const appointment = {
+      ...state.appointments[ id ],
+      interview: { ...interview }
+    };
+
+    const appointments = {
+      ...state.appointments,
+      [ id ]: appointment
+    };
+    
+    console.log("before state", state)
+    setState({
+        ...state,
+        appointments
+      });
+
+    console.log("Current state", state)
+    
   }
 
   return (

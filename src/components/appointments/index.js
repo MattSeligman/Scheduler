@@ -2,37 +2,57 @@ import React from 'react'
 import Header from 'components/appointments/Header'
 import Show from 'components/appointments/Show'
 import Empty from 'components/appointments/Empty'
+import Form from 'components/appointments/Form'
+import useVisualMode from 'hooks/useVisualMode'
 import "./styles.scss";
 
-const Appointment = (props) => {
-  const { 
-      id, time, interview, onEdit, onDelete, // Show
-      onAdd // Empty
-    } = props;
+const EMPTY = "EMPTY";
+const SHOW = "SHOW";
+const CREATE = "CREATE";
 
-    console.log(props) 
+const Appointment = (props) => {
+
+  const { mode, transition, back } = useVisualMode(
+    props.interview ? SHOW : EMPTY
+  );
+
+  console.log(`>>>`,props);
+
+  function save(name, interviewer) {
+    const interview = {
+      student: name,
+      interviewer
+    };
+  }
+  
   return ( 
   <article className="appointment">
-      <Header id={ id } time={ time } />
-      { 
-        (interview) ? 
-        
-        // if interview exists
+      <Header id={ props.id } time={ props.time } />
+      
+      { // show empty field if no interview exists
+        mode === EMPTY && <Empty onAdd={() => transition(CREATE)} />}
+      
+      { // show interview if exists
+        mode === SHOW && (
         <Show 
-          student={ interview.student } 
-          interviewer={ interview.interviewer } 
-          onEdit={ onEdit  } 
-          onDelete={ onDelete } 
+          student={ props.interview.student }
+          interviewer={ props.interview.interviewer }
+          onEdit={ props.onEdit  } 
+          onDelete={ props.onDelete } 
         />
-
-        : // else
-
-        <Empty
-          onAdd= { onAdd }
-        />  
+        )
       }
-      
-      
+
+      {mode === CREATE && (
+        
+        <Form 
+          interviewers={props.interviewers} 
+          onCancel={ back } 
+          onSave={ save } 
+        />
+      )}
+
+
     </article>
   )
 }

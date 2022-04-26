@@ -19,8 +19,6 @@ const Appointment = (props) => {
     props.interview ? SHOW : EMPTY
   );
 
-  console.log(`>>>`,props);
-
   const save = (name, interviewer) => {
     const interview = {
       student: name,
@@ -29,21 +27,22 @@ const Appointment = (props) => {
     
     transition(SAVING);
     // see if the data is actually entering correctly
-    console.log(`> props.id`, props.id);
-    console.log(`> interview`, interview);
+    console.log(`index.js 30 | props.id`, props.id);
+    console.log(`index.js 31 | interview`, interview);
     
-    // book the Interview
-    const bookInterview = new Promise((success, failed)=>{
-      props.bookInterview(props.id, interview);
-    })
+    // // book the Interview
+    // const bookInterview = new Promise((success, failed)=>{
+      // props.bookInterview(props.id, interview);
+    // })
 
     // transition to the Show if found, empty if not.
-    bookInterview
-      .then(transition(SHOW))
+    props.bookInterview(props.id, interview)
+      .then(()=> transition(SHOW) )
       .catch((error) => console.log("error", error))
 
   };
 
+  console.log("passed down props", props)
   return ( 
   <article className="appointment">
       <Header id={ props.id } time={ props.time } />

@@ -23,8 +23,7 @@ const Application = () =>{
   const api = {
     GET_DAYS: `/api/days`,
     GET_APPOINTMENTS: `/api/appointments`,
-    GET_INTERVIEWERS: `/api/interviewers`,
-    GET_INTERVIEWERS_ID: `/api/interviewers/:id`
+    GET_INTERVIEWERS: `/api/interviewers`
   }
   
   // update the states based on the routes responses
@@ -54,7 +53,6 @@ const Application = () =>{
   const interviewers = getInterviewersForDay(state, state.day);
   
   function bookInterview(id, interview) {
-    console.log(id, interview);
 
     const appointment = {
       ...state.appointments[ id ],
@@ -66,13 +64,19 @@ const Application = () =>{
       [ id ]: appointment
     };
     
-    console.log("before state", state)
-    setState({
-        ...state,
-        appointments
-      });
-
-    console.log("Current state", state)
+    return axios
+      .put( `/api/appointments/${id}`, { interview })
+      .then( (res) => {
+        
+        if (res.status === 204) {
+        console.log(`response`, res.data.json);
+          
+          setState({...state, appointments})
+          
+        }
+        
+      })
+      .catch(err => console.log(err))
     
   }
 

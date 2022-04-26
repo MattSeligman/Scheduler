@@ -23,12 +23,11 @@ const AppointmentForm = (props) => {
 
   const save = ()=>{
     console.log(`save submitted:`, student, interviewer);
+
     if(student && interviewer){
       props.onSave(student, interviewer);
       console.log(`save set:`, student, interviewer);
     }
-
-    
     
   }
   

@@ -65,21 +65,24 @@ const Application = () =>{
     };
     
     return axios
-      .put( `/api/appointments/${id}`, { interview })
+      .put( `/api/appointments/${id}`, { interview } )
       .then( (res) => {
         
-        if (res.status === 204) {
-        console.log(`response`, res.data.json);
-          
-          setState({...state, appointments})
-          
+        if ( res.status === 204 ) {
+          setState( {...state, appointments} )
         }
         
       })
-      .catch(err => console.log(err))
-    
+      .catch( err => console.log(err) )
   }
 
+  const deleteInterview = (id) => {
+
+    return axios
+      .delete(`/api/appointments/${id}`)
+      .catch( err => console.log(err) )
+  };
+  
   return (
     <main className="layout">
       <section className="sidebar">
@@ -117,6 +120,7 @@ const Application = () =>{
                   interview={interview}
                   interviewers={interviewers}
                   bookInterview={bookInterview}
+                  deleteInterview={deleteInterview}
                 />
             );
           })

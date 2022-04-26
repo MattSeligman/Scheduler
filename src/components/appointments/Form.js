@@ -7,8 +7,8 @@ const AppointmentForm = (props) => {
 
   const { onCancel } = props;
 
-  const [student, setStudent] = useState(props.name || "");
-  const [interviewer, setInterviewer] = useState(props.interviewer || null);
+  const [student, setStudent] = useState( props.name || "" );
+  const [interviewer, setInterviewer] = useState( props.interviewer || null );
 
   console.log("Exist?", props)
   const reset = ()=>{
@@ -23,12 +23,11 @@ const AppointmentForm = (props) => {
 
   const save = ()=>{
     console.log(`save submitted:`, student, interviewer);
-
+    
     if(student && interviewer){
       props.onSave(student, interviewer);
       console.log(`save set:`, student, interviewer);
     }
-    
   }
   
   return (

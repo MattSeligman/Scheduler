@@ -4,7 +4,6 @@ import Button from 'components/Button';
 
 
 const AppointmentForm = (props) => {
-  console.log("Props", props)
 
   const { interviewers, onSave, onCancel} = props;
 

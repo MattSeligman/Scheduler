@@ -5,6 +5,7 @@ import Empty from 'components/appointments/Empty'
 import Form from 'components/appointments/Form'
 import Status from 'components/appointments/Status'
 import Confirm from 'components/appointments/Confirm'
+import Error from 'components/appointments/Error'
 
 import useVisualMode from 'hooks/useVisualMode'
 import "./styles.scss";
@@ -15,29 +16,15 @@ const CREATE = "CREATE";
 const SAVING = "SAVING";
 const CONFIRM_DELETE = "CONFIRM_DELETE";
 const DELETING = "DELETING";
-const DELETING_ERROR = "DELETING_ERROR";
 const EDIT = "EDIT";
+const ERROR_DELETE = "ERROR_DELETE";
+const ERROR_SAVE = "ERROR_SAVE";
 
 const Appointment = (props) => {
 
   const { mode, transition, back } = useVisualMode(
     props.interview ? SHOW : EMPTY
   );
-
-  const confirmDelete = () => {
-    console.log("confirm Delete Clicked")
-    transition(CONFIRM_DELETE);
-  };
-
-  const onDelete = ()=>{
-    transition(DELETING);
-    console.log("Delete Clicked")
-
-    props
-      .deleteInterview(props.id)
-      .then(() => transition(EMPTY))
-      .catch(() => transition(DELETING_ERROR));
-  }
 
   const save = (name, interviewer) => {
     const interview = {
@@ -48,14 +35,37 @@ const Appointment = (props) => {
     transition(SAVING);
     
     // transition to the Show if found, empty if not.
-    props.bookInterview(props.id, interview)
-      .then(()=> transition(SHOW) )
-      .catch((error) => console.log("error", error))
+    props
+      .bookInterview(props.id, interview)
+      .then(()=> { 
+        transition(SHOW) 
+        console.log("Then statement ran for saving transitions"); 
+      })
+      .catch((err) => {
+
+  
+        console.log("IF THIS RUNS ITS WORKING AND CATCHING")
+        transition(ERROR_SAVE, true);
+      
+      });
 
   };
 
   const editInterview = ()=>{
     transition(EDIT);
+  }
+
+  const confirmDelete = () => {
+    transition(CONFIRM_DELETE);
+  };
+
+  const onDelete = ()=>{
+    transition(DELETING, true);
+
+    props
+      .deleteInterview(props.id)
+      .then(() => transition(EMPTY))
+      .catch(() => transition(ERROR_DELETE, true));
   }
 
   return ( 
@@ -75,19 +85,35 @@ const Appointment = (props) => {
           />
         )
       }
-      
+      { // ^ ERROR on SAVE 
+        mode === ERROR_SAVE && (
+          <Error 
+            message = "Unable to save at the moment."
+            onClose = { ()=>{ transition(EMPTY)} }
+          />
+        )
+      }
+      { // ^ ERROR on DELETE 
+        mode === ERROR_DELETE && (
+          <Error 
+            message = "Unable to delete at the moment."
+            onClose = { ()=>{ transition(EMPTY)} }
+          />
+        )
+      }
+
       { // Show the Status "Saving..."
         mode === SAVING && <Status message="Saving" />
       }
 
-      { // Show the interview Details
-        mode === SHOW && (
-        <Show 
-          student={ props.interview.student }
-          interviewer={ props.interview.interviewer }
-          onEdit={ editInterview } 
-          onDelete={ confirmDelete } 
-        />
+      { // Show if the props interview exists
+        mode === SHOW && props.interview && (
+          <Show 
+            student={ props.interview.student }
+            interviewer={ props.interview.interviewer }
+            onEdit={ editInterview } 
+            onDelete={ confirmDelete } 
+          />
         )
       }
 

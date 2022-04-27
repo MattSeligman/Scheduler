@@ -73,14 +73,12 @@ const Application = () =>{
         }
         
       })
-      .catch( err => console.log(err) )
   }
 
   const deleteInterview = (id) => {
 
     return axios
       .delete(`/api/appointments/${id}`)
-      .catch( err => console.log(err) )
   };
   
   return (

@@ -63,7 +63,7 @@ const Appointment = (props) => {
     transition(DELETING, true);
 
     props
-      .deleteInterview(props.id)
+      .cancelInterview(props.id)
       .then(() => transition(EMPTY))
       .catch(() => transition(ERROR_DELETE, true));
   }

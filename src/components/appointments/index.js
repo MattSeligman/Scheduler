@@ -39,18 +39,34 @@ const Appointment = (props) => {
       .bookInterview(props.id, interview)
       .then(()=> { 
         transition(SHOW) 
-        console.log("Then statement ran for saving transitions"); 
+          props.updateSpot(false);
       })
       .catch((err) => {
-
-  
-        console.log("IF THIS RUNS ITS WORKING AND CATCHING")
         transition(ERROR_SAVE, true);
       
       });
 
   };
 
+  /* Should optimize, temporary fix to get edit not to save */
+  const edit = (name, interviewer) => {
+    const interview = {
+      student: name,
+      interviewer,
+    };
+    
+    transition(SAVING);
+    
+    // transition to the Show if found, empty if not.
+    props
+      .bookInterview(props.id, interview)
+      .then(()=> { 
+        transition(SHOW) 
+      })
+      .catch((err) => {
+        transition(ERROR_SAVE, true)
+      });
+  };
   const editInterview = ()=>{
     transition(EDIT);
   }
@@ -64,7 +80,10 @@ const Appointment = (props) => {
 
     props
       .cancelInterview(props.id)
-      .then(() => transition(EMPTY))
+      .then(() => { 
+        transition(EMPTY)
+        props.updateSpot(true);
+      })
       .catch(() => transition(ERROR_DELETE, true));
   }
 
@@ -73,7 +92,11 @@ const Appointment = (props) => {
       <Header id={ props.id } time={ props.time } />
       
       { // Show Empty CTA if no appointment set
-        mode === EMPTY && <Empty onAdd={() => transition(CREATE)} />
+        mode === EMPTY && <Empty onAdd={() => 
+          {
+            transition(CREATE)
+          }
+        } />
       }
 
       { // Show the CREATE form
@@ -118,13 +141,13 @@ const Appointment = (props) => {
       }
 
       { // Show the interview Edit Details
-        mode === EDIT && (
+        mode === EDIT && props.interview && (
           <Form 
             name={props.interview.student}
             interviewer={props.interview.interviewer.id}
             interviewers={props.interviewers}
             onCancel={ back } 
-            onSave={ save } 
+            onSave={ edit } 
           />
         )
       }

@@ -16,6 +16,7 @@ const SAVING = "SAVING";
 const CONFIRM_DELETE = "CONFIRM_DELETE";
 const DELETING = "DELETING";
 const DELETING_ERROR = "DELETING_ERROR";
+const EDIT = "EDIT";
 
 const Appointment = (props) => {
 
@@ -53,7 +54,10 @@ const Appointment = (props) => {
 
   };
 
-  console.log("passed down props", props)
+  const editInterview = ()=>{
+    transition(EDIT);
+  }
+
   return ( 
   <article className="appointment">
       <Header id={ props.id } time={ props.time } />
@@ -81,9 +85,21 @@ const Appointment = (props) => {
         <Show 
           student={ props.interview.student }
           interviewer={ props.interview.interviewer }
-          onEdit={ props.onEdit  } 
+          onEdit={ editInterview } 
           onDelete={ confirmDelete } 
         />
+        )
+      }
+
+      { // Show the interview Edit Details
+        mode === EDIT && (
+          <Form 
+            name={props.interview.student}
+            interviewer={props.interview.interviewer.id}
+            interviewers={props.interviewers}
+            onCancel={ back } 
+            onSave={ save } 
+          />
         )
       }
 

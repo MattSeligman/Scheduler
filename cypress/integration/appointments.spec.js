@@ -4,6 +4,7 @@ describe("Appointments", () => {
     cy.request("GET", "/api/debug/reset");
     cy.visit("/");
     cy.contains("Monday");
+    
   });
 
   it("should book an interview", () => {

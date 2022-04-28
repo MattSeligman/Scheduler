@@ -9,8 +9,8 @@ const AppointmentForm = (props) => {
 
   const [student, setStudent] = useState( props.name || "" );
   const [interviewer, setInterviewer] = useState( props.interviewer || null );
+  const [promptMessage, setPromptMessage] = useState( null );
 
-  console.log("Exist?", props)
   const reset = ()=>{
     setStudent("");
     setInterviewer(null);
@@ -21,12 +21,33 @@ const AppointmentForm = (props) => {
     onCancel();
   }
 
+  function validate() {
+
+    if (interviewer === null) {
+      setPromptMessage("Please select an interviewer");
+      return;
+    }
+
+    if (student === "") {
+      setPromptMessage("Student name cannot be blank");
+      return;
+    }
+  
+    props.onSave(student, interviewer);
+  }
+
   const save = ()=>{
-    console.log(`save submitted:`, student, interviewer);
-    
+
+    if(!student){
+      setPromptMessage("student name cannot be blank");
+    }
+
+    if(student && !interviewer){
+      setPromptMessage("select your interviewer");
+    }
+
     if(student && interviewer){
       props.onSave(student, interviewer);
-      console.log(`save set:`, student, interviewer);
     }
   }
   
@@ -40,9 +61,11 @@ const AppointmentForm = (props) => {
             type="text"
             placeholder="Enter Student Name"
             value={student}
+            data-testid="student-name-input"
             onChange={(e) => setStudent(e.target.value)}
           />
         </form>
+        <section className="appointment__validation">{promptMessage}</section>
         <InterviewerList 
           interviewers={props.interviewers}
           value={interviewer}

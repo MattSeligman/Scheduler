@@ -81,9 +81,7 @@ const useApplicationData = () => {
     setState( prev => {
       const currentState = { ...prev };
       currentState.days.filter( currentDay => {
-
-        console.log("Current day", currentDay.name,"vs", daySelected)
-
+        
         if (currentDay.name === daySelected){
           return (addOrSubtract) ? currentDay.spots++ : currentDay.spots--;
         }

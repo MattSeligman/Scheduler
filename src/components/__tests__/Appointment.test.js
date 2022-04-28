@@ -10,8 +10,8 @@ describe("Appointment", () => {
     render(<Appointment />);
   });
 
-  it("renders its `children` prop as text", () => {
-    render(<Header />);
+  it("renders contains a key", () => {
+    expect(<Appointment />).toHaveProperty('key');
   });
 
   it("does something else it is supposed to do", () => {

@@ -21,21 +21,6 @@ const AppointmentForm = (props) => {
     onCancel();
   }
 
-  function validate() {
-
-    if (interviewer === null) {
-      setPromptMessage("Please select an interviewer");
-      return;
-    }
-
-    if (student === "") {
-      setPromptMessage("Student name cannot be blank");
-      return;
-    }
-  
-    props.onSave(student, interviewer);
-  }
-
   const save = ()=>{
 
     if(!student){

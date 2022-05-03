@@ -103,7 +103,7 @@ const Appointment = (props) => {
         mode === CREATE && (
           <Form 
             interviewers={props.interviewers} 
-            onCancel={ back } 
+            onCancel={ ()=>{ transition(EMPTY)} } 
             onSave={ save } 
           />
         )
@@ -112,7 +112,7 @@ const Appointment = (props) => {
         mode === ERROR_SAVE && (
           <Error 
             message = "Unable to save at the moment."
-            onClose = { ()=>{ transition(EMPTY)} }
+            onClose = { ()=>{ transition(CREATE)} }
           />
         )
       }

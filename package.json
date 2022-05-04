@@ -19,7 +19,7 @@
     "storybook": "start-storybook -p 9009 -s public --ci",
     "build-storybook": "build-storybook -s public",
     "cypress": "cypress open -P .",
-    "cypress:video": "cypress run"
+    "cypress:video": "./node_modules/.bin/cypress run"
   },
   "browserslist": {
     "production": [

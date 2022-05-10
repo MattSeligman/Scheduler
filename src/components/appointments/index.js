@@ -112,7 +112,7 @@ const Appointment = (props) => {
         mode === ERROR_SAVE && (
           <Error 
             message = "Unable to save at the moment."
-            onClose = { ()=>{ transition(CREATE)} }
+            onClose = { ()=>{ transition(SHOW)} }
           />
         )
       }
@@ -120,7 +120,7 @@ const Appointment = (props) => {
         mode === ERROR_DELETE && (
           <Error 
             message = "Unable to delete at the moment."
-            onClose = { ()=>{ transition(EMPTY)} }
+            onClose = { ()=>{ transition(SHOW)} }
           />
         )
       }
